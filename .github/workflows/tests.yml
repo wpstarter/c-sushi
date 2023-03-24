@@ -16,7 +16,6 @@ jobs:
         php: [7.3, 7.4, '8.0', 8.1, 8.2]
         wpstarter: [1.*]
         testbench: [1.*]
-        dbal: [3.*]
         os: [ubuntu-latest]
 
 
@@ -36,7 +35,6 @@ jobs:
       - name: Install dependencies
         run: |
           composer require "wp-starter/contracts:${{ matrix.wpstarter }}" "wpstarter/o-testbench:${{ matrix.testbench }}" --no-interaction --no-update
-          composer require "doctrine/dbal:${{ matrix.dbal }}" --dev --no-interaction --no-update
           composer install --prefer-dist --no-interaction --no-suggest
 
       - name: Installed dependencies
