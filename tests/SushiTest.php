@@ -2,10 +2,10 @@
 
 namespace Tests;
 
-use Illuminate\Database\Connectors\ConnectionFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Validator;
+use WpStarter\Database\Connectors\ConnectionFactory;
+use WpStarter\Database\Eloquent\Model;
+use WpStarter\Support\Facades\File;
+use WpStarter\Support\Facades\Validator;
 use Orchestra\Testbench\TestCase;
 
 class SushiTest extends TestCase
