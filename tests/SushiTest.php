@@ -16,7 +16,7 @@ class SushiTest extends TestCase
     {
         parent::setUp();
 
-        config(['sushi.cache-path' => $this->cachePath = __DIR__ . '/cache']);
+        ws_config(['sushi.cache-path' => $this->cachePath = __DIR__ . '/cache']);
 
         if (! file_exists($this->cachePath)) {
             mkdir($this->cachePath, 0777, true);
@@ -80,7 +80,7 @@ class SushiTest extends TestCase
     /** @test */
     function uses_in_memory_if_the_cache_directory_is_not_writeable_or_not_found()
     {
-        config(['sushi.cache-path' => $path = __DIR__ . '/non-existant-path']);
+        ws_config(['sushi.cache-path' => $path = __DIR__ . '/non-existant-path']);
 
         Foo::count();
 
@@ -103,7 +103,7 @@ class SushiTest extends TestCase
     /** @test */
     function avoids_error_when_creating_database_concurrently()
     {
-        $actualFactory = app(ConnectionFactory::class);
+        $actualFactory = ws_app(ConnectionFactory::class);
         $actualConnection = $actualFactory->make([
             'driver' => 'sqlite',
             'database' => ':memory:',
@@ -171,13 +171,13 @@ class SushiTest extends TestCase
 
         $this->assertTrue(Validator::make(['bob' => 'lob'], ['bob' => 'exists:'.ModelWithNonStandardKeys::class.'.model_with_non_standard_keys'])->passes());
         $this->assertTrue(Validator::make(['foo' => 'bar'], ['foo' => 'exists:'.Foo::class.'.foos'])->passes());
-        (int) explode('.', app()->version())[0] >= 6
+        (int) explode('.', ws_app()->version())[0] >= 6
             ? $this->assertTrue(Validator::make(['foo' => 5], ['foo' => 'exists:'.ModelWithNonStandardKeys::class.',id'])->passes())
             : $this->assertTrue(Validator::make(['foo' => 5], ['foo' => 'exists:'.ModelWithNonStandardKeys::class.'.model_with_non_standard_keys,id'])->passes());
 
         $this->assertFalse(Validator::make(['id' => 4], ['id' => 'exists:'.ModelWithNonStandardKeys::class.'.model_with_non_standard_keys'])->passes());
         $this->assertFalse(Validator::make(['foo' => 'bob'], ['foo' => 'exists:'.Foo::class.'.foos'])->passes());
-        (int) explode('.', app()->version())[0] >= 6
+        (int) explode('.', ws_app()->version())[0] >= 6
             ? $this->assertFalse(Validator::make(['bob' => 'ble'], ['bob' => 'exists:'.ModelWithNonStandardKeys::class])->passes())
             : $this->assertFalse(Validator::make(['bob' => 'ble'], ['bob' => 'exists:'.ModelWithNonStandardKeys::class.'.model_with_non_standard_keys'])->passes());
     }
