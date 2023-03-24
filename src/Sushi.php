@@ -86,14 +86,14 @@ trait Sushi
 
     protected static function setSqliteConnection($database)
     {
-        $ws_config = [
+        $config = [
             'driver' => 'sqlite',
             'database' => $database,
         ];
 
-        static::$sushiConnection = ws_app(ConnectionFactory::class)->make($ws_config);
+        static::$sushiConnection = ws_app(ConnectionFactory::class)->make($config);
 
-        ws_app('ws_config')->set('database.connections.'.static::class, $ws_config);
+        ws_app('config')->set('database.connections.'.static::class, $config);
     }
 
     public function migrate()
